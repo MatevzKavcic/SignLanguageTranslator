@@ -38,9 +38,8 @@ for hand in ["left", "right"]:
         header += [f"{hand}_hand_{i}_x", f"{hand}_hand_{i}_y", f"{hand}_hand_{i}_z"]
 
 # Face
-for i in FACE_LANDMARKS:
+for i in range(478):
     header += [f"face_{i}_x", f"face_{i}_y", f"face_{i}_z"]
-
 # -------- PROCESS --------
 with open(OUTPUT_CSV, "w", newline="") as f:
     writer = csv.writer(f)
@@ -112,8 +111,7 @@ with open(OUTPUT_CSV, "w", newline="") as f:
             if face_results.multi_face_landmarks:
                 face_lm = face_results.multi_face_landmarks[0].landmark
 
-                for i in FACE_LANDMARKS:
-                    lm = face_lm[i]
+                for lm in face_lm:
                     row.extend([lm.x, lm.y, lm.z])
 
                     # draw selected points only (clean)
