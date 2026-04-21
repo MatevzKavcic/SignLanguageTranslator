@@ -1,5 +1,5 @@
-import cv2
-import mediapipe as mp
+import cv2 # type: ignore
+import mediapipe as mp # type: ignore
 import csv
 import os
 
