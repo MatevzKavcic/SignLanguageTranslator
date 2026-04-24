@@ -8,8 +8,8 @@ mp_hands = mp.solutions.hands
 mp_face = mp.solutions.face_mesh
 mp_drawing = mp.solutions.drawing_utils
 
-VIDEO_PATH = "muzikal.mp4"
-OUTPUT_CSV = "gesture_data.csv"
+VIDEO_PATH = "VideoFolder/a/a.mp4"
+OUTPUT_CSV = "gesture_data_letterA.csv"
 
 cap = cv2.VideoCapture(VIDEO_PATH)
 
@@ -38,7 +38,7 @@ for hand in ["left", "right"]:
         header += [f"{hand}_hand_{i}_x", f"{hand}_hand_{i}_y", f"{hand}_hand_{i}_z"]
 
 # Face
-for i in range(478):
+for i in range(468):
     header += [f"face_{i}_x", f"face_{i}_y", f"face_{i}_z"]
 # -------- PROCESS --------
 with open(OUTPUT_CSV, "w", newline="") as f:
