@@ -13,6 +13,8 @@ OUTPUT_CSV = "gesture_data_letterA.csv"
 
 cap = cv2.VideoCapture(VIDEO_PATH)
 
+#specific folder
+
 # -------- SELECTED LANDMARKS --------
 
 # Upper body only
