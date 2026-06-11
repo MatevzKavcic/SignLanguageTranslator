@@ -1,4 +1,4 @@
-import pandas as pd
+import pandas as pd # type: ignore
 
 CSV_FILE = "clean_dataset_asciiFixed_z.csv"  # change here for your dataset path
 OUTPUT_FILE = "cleaned_full_datasetFor_z.csv"

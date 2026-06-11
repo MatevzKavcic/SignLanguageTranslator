@@ -1,10 +1,10 @@
 import numpy as np
-from sklearn.model_selection import train_test_split
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, Dropout
-from tensorflow.keras.callbacks import EarlyStopping
-from tensorflow.keras.preprocessing.sequence import pad_sequences
+from sklearn.model_selection import train_test_split # type: ignore
+from tensorflow.keras.utils import to_categorical# type: ignore
+from tensorflow.keras.models import Sequential# type: ignore
+from tensorflow.keras.layers import LSTM, Dense, Dropout# type: ignore
+from tensorflow.keras.callbacks import EarlyStopping# type: ignore
+from tensorflow.keras.preprocessing.sequence import pad_sequences# type: ignore
 
 # =========================
 # LOAD DATA

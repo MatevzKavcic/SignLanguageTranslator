@@ -1,7 +1,7 @@
 
 import numpy as np
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-from sklearn.preprocessing import LabelEncoder
+from tensorflow.keras.preprocessing.sequence import pad_sequences # type: ignore
+from sklearn.preprocessing import LabelEncoder # type: ignore
 import os
 
 # =========================

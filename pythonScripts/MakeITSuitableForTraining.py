@@ -1,6 +1,6 @@
-import pandas as pd
+import pandas as pd # type: ignore
 import numpy as np
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder # type: ignore
 
 # ---------------- CONFIG ----------------
 CSV_FILE = "TestingCleaned/testing_cleanedFULLY.csv"
