@@ -100,29 +100,6 @@ def augment_sequence(seq):
 
     return seq
 
-
-# =========================
-# CREATE AUGMENTED DATASET
-# =========================
-X_aug = []
-y_aug = []
-
-for seq, label in zip(X, y_encoded):
-
-    # original
-    X_aug.append(seq)
-    y_aug.append(label)
-
-    # 3 augmented versions per sample
-    for _ in range(3):
-        X_aug.append(augment_sequence(seq))
-        y_aug.append(label)
-
-X_aug = np.array(X_aug, dtype=object)
-y_aug = np.array(y_aug)
-
-# =========================
-# SAVE
 # =========================
 np.save(f"{output_folder}/X_aug.npy", X_aug)
 np.save(f"{output_folder}/y_aug.npy", y_aug)

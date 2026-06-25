@@ -8,7 +8,7 @@ mp_hands = mp.solutions.hands
 mp_face = mp.solutions.face_mesh
 
 DATASET_PATH = "../VideoFolder" #predelaj cel folder
-OUTPUT_CSV = "full_dataset_z.csv"
+OUTPUT_CSV = "full_dataset_TestingCanceled.csv"
 
 POSE_LANDMARKS = [0, 11, 12, 13, 14, 15, 16]
 
