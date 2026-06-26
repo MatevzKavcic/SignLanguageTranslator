@@ -32,7 +32,21 @@ print("Z cols:", len(z_cols))
 # NORMALIZE ROW BY ROW
 # ======================================
 
+total_frames = len(df)
+
+print(f"\nStarting normalization...")
+print(f"Total frames: {total_frames}\n")
+
 for idx in df.index:
+
+    # Progress log every 1000 frames
+    if idx % 1000 == 0 or idx == total_frames - 1:
+        percent = (idx + 1) / total_frames * 100
+        print(
+            f"[{idx+1}/{total_frames}] "
+            f"{percent:.2f}% completed",
+            flush=True
+        )
 
     ls_x = df.at[idx, LS_X]
     ls_y = df.at[idx, LS_Y]
@@ -90,12 +104,22 @@ for idx in df.index:
             df.at[idx, col] = (
                 value / shoulder_dist
             )
-
 # ======================================
 # SAVE
 # ======================================
 
+
+print("\n===================================")
+print("Normalization finished")
+print("===================================")
+print(f"Frames processed : {total_frames}")
+print(f"X coordinates    : {len(x_cols)}")
+print(f"Y coordinates    : {len(y_cols)}")
+print(f"Z coordinates    : {len(z_cols)}")
+print(f"Output file      : {OUTPUT_CSV}")
+print("===================================")
+
 df.to_csv(OUTPUT_CSV, index=False)
 
-print("✅ Normalized dataset saved to:")
+print(" Normalized dataset saved to:")
 print(OUTPUT_CSV)
