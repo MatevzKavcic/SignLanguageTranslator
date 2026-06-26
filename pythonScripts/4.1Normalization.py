@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
 
-INPUT_CSV = "full_dataset_augmented.csv"
-OUTPUT_CSV = "full_dataset_normalized.csv"
-    
+INPUT_CSV = "cleaned_test_extraction.csv"
+OUTPUT_CSV = "test_extraction_normalized.csv"
+
 df = pd.read_csv(INPUT_CSV)
 
 # ======================================

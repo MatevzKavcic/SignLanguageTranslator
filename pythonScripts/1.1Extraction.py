@@ -14,7 +14,7 @@ mp_face = mp.solutions.face_mesh
 # =========================
 # CONFIG
 # =========================
-DATASET_PATH = "VideoFolder"
+DATASET_PATH = "../VideoFolder"
 OUTPUT_CSV = "full_dataset_augmented.csv"
 AUGMENTATIONS_PER_VIDEO = 3
 

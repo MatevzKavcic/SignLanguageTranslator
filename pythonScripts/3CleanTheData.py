@@ -1,7 +1,7 @@
 import pandas as pd # type: ignore
 
-CSV_FILE = "clean_dataset_asciiFixed_z.csv"  # change here for your dataset path
-OUTPUT_FILE = "cleaned_full_datasetFor_z.csv"
+CSV_FILE = "test_extraction.csv"  # change here for your dataset path
+OUTPUT_FILE = "cleaned_test_extraction.csv"
 
 df = pd.read_csv(CSV_FILE)
 
