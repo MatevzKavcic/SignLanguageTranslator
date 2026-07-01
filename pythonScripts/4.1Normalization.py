@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np
 
-INPUT_CSV = "3ForthTryDatacetCleaned.csv"
-OUTPUT_CSV = "4.1ForthTryNormalization.csv"
+INPUT_CSV = "3FifthTryDatasetCleaned.csv"
+OUTPUT_CSV = "4.1FifthTryNormalization.csv"
 
 df = pd.read_csv(INPUT_CSV)
 
