@@ -1,7 +1,7 @@
 import pandas as pd # type: ignore
 
-CSV_FILE = "2SecondTryDatasetUTF8.csv"  # change here for your dataset path
-OUTPUT_FILE = "3SecondTryDatacetCleaned.csv"
+CSV_FILE = "2ForthTryDatasetUTF8.csv"  #change here for your dataset path
+OUTPUT_FILE = "3ForthTryDatacetCleaned.csv"
 
 df = pd.read_csv(CSV_FILE)
 

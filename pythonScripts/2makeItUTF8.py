@@ -1,8 +1,8 @@
 import pandas as pd# type: ignore
 import unicodedata
 
-INPUT = "1.1SecondTryDataset.csv"
-OUTPUT = "2SecondTryDatasetUTF8.csv"
+INPUT = "1.1ForthTryDataset.csv"
+OUTPUT = "2ForthTryDatasetUTF8.csv"
 
 # -----------------------------
 # 1. REMOVE ACCENTS FUNCTION

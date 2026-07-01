@@ -7,9 +7,9 @@ from sklearn.preprocessing import LabelEncoder # type: ignore
 # CONFIG
 # ==========================================
 
-CSV_FILE = "3SecondTryDatacetCleaned.csv"
+CSV_FILE = "4.1ForthTryNormalization.csv"
 
-OUTPUT_FOLDER = "SecondTryProcesedNPYdataTestingBeforeNormalization"
+OUTPUT_FOLDER = "ForthTryProcesedNPYdata"
 
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 

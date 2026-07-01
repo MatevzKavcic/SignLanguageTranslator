@@ -14,8 +14,8 @@ mp_face = mp.solutions.face_mesh
 # =========================
 # CONFIG
 # =========================
-DATASET_PATH = "VideoFolder"
-OUTPUT_CSV = "1.1SecondTryDataset.csv"
+DATASET_PATH = "fake_c"
+OUTPUT_CSV = "1.1ForthTryDataset.csv"
 AUGMENTATIONS_PER_VIDEO = 3
 
 POSE_LANDMARKS = [0, 11, 12, 13, 14, 15, 16]

@@ -16,8 +16,8 @@ from tensorflow.keras.layers import Conv1D, MaxPooling1D
 # =========================
 print("Loading...")
 
-X = np.load("SecondTryProcesedNPYdataTestingBeforeNormalization/X_aug.npy", allow_pickle=True)
-y = np.load("SecondTryProcesedNPYdataTestingBeforeNormalization/y_aug.npy")
+X = np.load("ForthTryProcesedNPYdata/X_aug.npy", allow_pickle=True)
+y = np.load("ForthTryProcesedNPYdata/y_aug.npy")
 
 print("Loaded:", len(X))
 
@@ -131,7 +131,7 @@ model.compile(
 early_stop = EarlyStopping(patience=100, restore_best_weights=True)
 
 checkpoint = ModelCheckpoint(
-    "SecondTry_noNorm_sign_language_CNN_lstm.h5",
+    "ForthTry_LSTM_model.h5",
     save_best_only=True,
     monitor="val_accuracy"
 )
