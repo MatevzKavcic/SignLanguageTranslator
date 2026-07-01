@@ -15,7 +15,7 @@ mp_face = mp.solutions.face_mesh
 # CONFIG
 # =========================
 DATASET_PATH = "fake_c"
-OUTPUT_CSV = "1.1ForthTryDataset.csv"
+OUTPUT_CSV = "1.1FifthTryDataset.csv"
 AUGMENTATIONS_PER_VIDEO = 3
 
 POSE_LANDMARKS = [0, 11, 12, 13, 14, 15, 16]
@@ -145,16 +145,21 @@ with open(OUTPUT_CSV, "w", newline="") as f:
 
                     frame_id = 0
 
-                    if aug_idx == 0:
-                        angle = 0
-                        scale = 1.0
-                        aug_name = "Original"
-                    else:
-                        angle = random.uniform(-10, 10)
-                        scale = random.uniform(0.9, 1.1)
-                        aug_name = f"Augmentation {aug_idx}"
+	            base_name = os.path.splitext(video_name)[0]
 
-                    video_id = video_name
+	            if aug_idx == 0:
+		        angle = 0
+		        scale = 1.0
+		        aug_name = "Original"
+		        video_id = f"{base_name}_original"
+
+		    else:
+		        angle = random.uniform(-10, 10)
+		        scale = random.uniform(0.9, 1.1)
+
+		        aug_name = f"Augmentation {aug_idx}"
+		        video_id = f"{base_name}_aug_{aug_idx}"
+
 
                     print(
                         f"\n{aug_name}"
@@ -197,7 +202,7 @@ with open(OUTPUT_CSV, "w", newline="") as f:
                                 ])
 
                         else:
-                            row.extend([0] * (len(POSE_LANDMARKS) * 3))
+-                            row.extend([0] * (len(POSE_LANDMARKS) * 3))
 
                         # =========================
                         # HANDS
