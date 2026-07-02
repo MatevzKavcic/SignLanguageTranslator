@@ -101,7 +101,9 @@ with open(OUTPUT_CSV, "w", newline="") as f:
             for video_index, video_name in enumerate(videos, start=1):
 
                 video_path = os.path.join(folder_path, video_name)
-                label = letter_folder  # IMPORTANT FIX
+
+                # Use the filename (without .mp4) as the label
+                label = os.path.splitext(video_name)[0]
 
                 print(f"\nVideo {video_index}/{len(videos)} : {video_name}")
 
@@ -194,6 +196,7 @@ with open(OUTPUT_CSV, "w", newline="") as f:
 print("\n========================================")
 print("Extraction finished successfully!")
 print("========================================")
+
 
 
 
