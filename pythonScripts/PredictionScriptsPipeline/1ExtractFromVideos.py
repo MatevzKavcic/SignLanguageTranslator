@@ -6,7 +6,7 @@ import csv
 # INPUT / OUTPUT
 # =========================
 
-VIDEO_PATH = "cigan.mp4"
+VIDEO_PATH = "CD.mp4"
 OUTPUT_CSV = "video_sequence.csv"
 
 # =========================

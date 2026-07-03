@@ -7,7 +7,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 # CONFIG
 # ==========================================================
 
-CSV_FILE = "CleanedSequence.csv"
+CSV_FILE = "NormalizedSequence.csv"
 MODEL_PATH = "../embedding_model.keras"
 
 OUTPUT_FILE = "single_video_embedding.npy"
@@ -57,6 +57,9 @@ sequence = pad_sequences(
     dtype="float32"
 )
 
+np.save("single_video_sequence.npy", sequence)
+
+print("Saved padded sequence:", sequence.shape)
 # ==========================================================
 # EMBEDDING
 # ==========================================================
