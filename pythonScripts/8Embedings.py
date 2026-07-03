@@ -10,7 +10,7 @@ Try_number = sys.argv[1]
 # CONFIG
 # ==========================================
 
-DATA_FOLDER = f"{Try_number}_npyData"
+DATA_FOLDER = f"{Try_number}/{Try_number}_npyData"
 
 MODEL_FILE = "embedding_model.keras"
 

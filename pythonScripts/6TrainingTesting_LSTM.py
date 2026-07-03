@@ -20,8 +20,8 @@ Try_number = sys.argv[1]
 # =========================
 print("Loading...")
 
-X = np.load(f"{Try_number}_npyData/X_aug.npy", allow_pickle=True)
-y = np.load(f"{Try_number}_npyData/y_aug.npy")
+X = np.load(f"{Try_number}/{Try_number}_npyData/X_aug.npy", allow_pickle=True)
+y = np.load(f"{Try_number}/{Try_number}_npyData/y_aug.npy")
 
 print("Loaded:", len(X))
 
