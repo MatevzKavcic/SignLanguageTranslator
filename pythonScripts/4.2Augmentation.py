@@ -3,11 +3,15 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 
+import sys
+
+Try_number = sys.argv[1]
+
 # ==========================================
 # CONFIG
 # ==========================================
-CSV_FILE = "4.1FifthTryNormalization.csv"
-OUTPUT_FOLDER = "ProcessedNPYdataNEW"
+CSV_FILE = f"4.1{Try_number}Normalization.csv"
+OUTPUT_FOLDER = f"{Try_number}_npyData"
 
 NUM_AUGMENTATIONS = 3
 

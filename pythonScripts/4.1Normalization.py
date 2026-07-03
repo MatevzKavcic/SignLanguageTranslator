@@ -1,8 +1,11 @@
 import pandas as pd
 import numpy as np
+import sys
 
-INPUT_CSV = "3FifthTryDatasetCleaned.csv"
-OUTPUT_CSV = "4.1FifthTryNormalization.csv"
+Try_number = sys.argv[1]
+
+INPUT_CSV = f"3{Try_number}Cleaned.csv"
+OUTPUT_CSV = f"4.1{Try_number}Normalization.csv"
 
 df = pd.read_csv(INPUT_CSV)
 

@@ -1,7 +1,10 @@
 import pandas as pd # type: ignore
+import sys
 
-CSV_FILE = "2FifthTryDatasetUTF8.csv" #change here for your dataset path
-OUTPUT_FILE = "3FifthTryDatasetCleaned.csv"
+Try_number = sys.argv[1]
+
+CSV_FILE = f"2{Try_number}UTF8.csv"
+OUTPUT_FILE = f"3{Try_number}Cleaned.csv"
 
 df = pd.read_csv(CSV_FILE)
 

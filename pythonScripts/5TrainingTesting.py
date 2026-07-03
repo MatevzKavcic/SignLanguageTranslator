@@ -2,22 +2,26 @@ import numpy as np
 import time
 
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, Dropout
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, Callback
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.utils import Sequence
-from tensorflow.keras.layers import GRU
-from tensorflow.keras.layers import Conv1D, MaxPooling1D
+from tensorflow.keras.utils import to_categorical # type: ignore
+from tensorflow.keras.models import Sequential# type: ignore
+from tensorflow.keras.layers import LSTM, Dense, Dropout# type: ignore
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, Callback# type: ignore
+from tensorflow.keras.preprocessing.sequence import pad_sequences# type: ignore
+from tensorflow.keras.utils import Sequence# type: ignore
+from tensorflow.keras.layers import GRU# type: ignore
+from tensorflow.keras.layers import Conv1D, MaxPooling1D # type: ignore
+import sys
+
+Try_number = sys.argv[1]
+
 
 # =========================
 # LOAD DATA (light)
 # =========================
 print("Loading...")
 
-X = np.load("ProcessedNPYdataNEW/X_aug.npy", allow_pickle=True)
-y = np.load("ProcessedNPYdataNEW/y_aug.npy")
+X = np.load(f"{Try_number}_npyData/X_aug.npy", allow_pickle=True)
+y = np.load(f"{Try_number}_npyData/y_aug.npy")
 
 print("Loaded:", len(X))
 
@@ -131,7 +135,7 @@ model.compile(
 early_stop = EarlyStopping(patience=100, restore_best_weights=True)
 
 checkpoint = ModelCheckpoint(
-    "FifthTry_LSTM_model.h5",
+    f"{Try_number}_LSTM_model.h5",
     save_best_only=True,
     monitor="val_accuracy"
 )

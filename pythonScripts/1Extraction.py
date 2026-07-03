@@ -4,6 +4,14 @@ import csv
 import os
 import random
 
+import sys
+
+video_path = sys.argv[1]
+Try_number = sys.argv[2]
+
+print(video_path)
+print(Try_number)
+
 # =========================
 # MEDIAPIPE SETUP
 # =========================
@@ -14,8 +22,8 @@ mp_face = mp.solutions.face_mesh
 # =========================
 # CONFIG
 # =========================
-DATASET_PATH = "fake_c"
-OUTPUT_CSV = "1.1FifthTryDataset.csv"
+DATASET_PATH = video_path
+OUTPUT_CSV = f"1{Try_number}Extraction.csv"
 AUGMENTATIONS_PER_VIDEO = 3
 
 POSE_LANDMARKS = [0, 11, 12, 13, 14, 15, 16]
