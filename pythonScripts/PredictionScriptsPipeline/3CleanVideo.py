@@ -1,128 +1,131 @@
-import cv2  # type: ignore
-import mediapipe as mp  # type: ignore
-import csv
+import pandas as pd # type: ignore
 
-# =========================
-# INPUT / OUTPUT
-# =========================
+CSV_FILE = "UTF_cleaned.csv" #change here for your dataset path
+OUTPUT_FILE = "CleanedSequence.csv"
 
-VIDEO_PATH = "cigan.mp4"
-OUTPUT_CSV = "single_video_clean.csv"
+df = pd.read_csv(CSV_FILE)
 
-# =========================
-# LANDMARK CONFIG
-# =========================
+exclude = ["frame", "video", "label"]
+landmark_cols = [col for col in df.columns if col not in exclude]
 
-POSE_LANDMARKS = [0, 11, 12, 13, 14, 15, 16]
+# group columns into landmarks (x,y,z)
+landmarks = []
+for i in range(0, len(landmark_cols), 3):
+    landmarks.append(landmark_cols[i:i+3])
 
-FACE_POINTS = [
-    10, 67, 21, 46, 276, 8, 197, 1, 4, 48, 278,
-    251, 297, 33, 159, 145, 155, 463, 386, 374,
-    263, 127, 356, 330, 101, 93, 323, 215, 172,
-    435, 397, 378, 149, 152, 17, 0, 39, 269,
-    61, 291, 404, 180, 210, 430
-]
+cleaned_groups = []
 
-# =========================
-# HEADER
-# =========================
+for video_name, group in df.groupby("video"):
+    print(f"Processing {video_name}")
+    group = group.reset_index(drop=True)
 
-header = ["frame", "video_id"]
+    # -------- INTERPOLATION --------
+    for cols in landmarks:
+        x_col, y_col, z_col = cols
 
-for i in POSE_LANDMARKS:
-    header += [f"pose_{i}_x", f"pose_{i}_y", f"pose_{i}_z"]
+        i = 0
+        while i < len(group):
+            x = group.loc[i, x_col]
+            y = group.loc[i, y_col]
+            z = group.loc[i, z_col]
 
-for hand in ["left", "right"]:
-    for i in range(21):
-        header += [f"{hand}_hand_{i}_x", f"{hand}_hand_{i}_y", f"{hand}_hand_{i}_z"]
+            if x == 0 and y == 0 and z == 0:
+                start = i
 
-for i in FACE_POINTS:
-    header += [f"face_{i}_x", f"face_{i}_y", f"face_{i}_z"]
+                while i < len(group) and (
+                    group.loc[i, x_col] == 0 and
+                    group.loc[i, y_col] == 0 and
+                    group.loc[i, z_col] == 0
+                ):
+                    i += 1
 
-header.append("label")
+                end = i - 1
 
-# =========================
-# VIDEO ID / LABEL
-# =========================
+                before_idx = start - 1
+                after_idx = i
 
-video_id = "cigan_0"
-label = "cigan"
+                if before_idx < 0 or after_idx >= len(group):
+                    continue
 
-# =========================
-# PROCESS VIDEO
-# =========================
+                before = [
+                    group.loc[before_idx, x_col],
+                    group.loc[before_idx, y_col],
+                    group.loc[before_idx, z_col],
+                ]
 
-print("Processing single video...")
+                after = [
+                    group.loc[after_idx, x_col],
+                    group.loc[after_idx, y_col],
+                    group.loc[after_idx, z_col],
+                ]
 
-with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
-    writer = csv.writer(f)
-    writer.writerow(header)
+                gap_size = end - start + 1
 
-    with mp.solutions.pose.Pose() as pose, \
-         mp.solutions.hands.Hands(max_num_hands=2) as hands, \
-         mp.solutions.face_mesh.FaceMesh(max_num_faces=1) as face:
+                for j in range(gap_size):
+                    t = (j + 1) / (gap_size + 1)
 
-        cap = cv2.VideoCapture(VIDEO_PATH)
+                    group.loc[start + j, x_col] = before[0] * (1 - t) + after[0] * t
+                    group.loc[start + j, y_col] = before[1] * (1 - t) + after[1] * t
+                    group.loc[start + j, z_col] = before[2] * (1 - t) + after[2] * t
+            else:
+                i += 1
 
-        frame_id = 0
+    # -------- HANDLE START & END --------
+    for cols in landmarks:
+        x_col, y_col, z_col = cols
 
-        while True:
-            success, frame = cap.read()
-            if not success:
+        # ---- START ----
+        first_valid_idx = None
+        for i in range(len(group)):
+            if not (
+                group.loc[i, x_col] == 0 and
+                group.loc[i, y_col] == 0 and
+                group.loc[i, z_col] == 0
+            ):
+                first_valid_idx = i
                 break
 
-            rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        if first_valid_idx is not None:
+            first_val = [
+                group.loc[first_valid_idx, x_col],
+                group.loc[first_valid_idx, y_col],
+                group.loc[first_valid_idx, z_col],
+            ]
 
-            pose_results = pose.process(rgb)
-            hand_results = hands.process(rgb)
-            face_results = face.process(rgb)
+            for i in range(0, first_valid_idx):
+                group.loc[i, x_col] = first_val[0]
+                group.loc[i, y_col] = first_val[1]
+                group.loc[i, z_col] = first_val[2]
 
-            row = [frame_id, video_id]
+        # ---- END ----
+        last_valid_idx = None
+        for i in range(len(group)-1, -1, -1):
+            if not (
+                group.loc[i, x_col] == 0 and
+                group.loc[i, y_col] == 0 and
+                group.loc[i, z_col] == 0
+            ):
+                last_valid_idx = i
+                break
 
-            # ================= POSE =================
-            if pose_results.pose_landmarks:
-                lm = pose_results.pose_landmarks.landmark
-                for i in POSE_LANDMARKS:
-                    row.extend([lm[i].x, lm[i].y, lm[i].z])
-            else:
-                row.extend([0] * len(POSE_LANDMARKS) * 3)
+        if last_valid_idx is not None:
+            last_val = [
+                group.loc[last_valid_idx, x_col],
+                group.loc[last_valid_idx, y_col],
+                group.loc[last_valid_idx, z_col],
+            ]
 
-            # ================= HANDS =================
-            left_hand = [0] * (21 * 3)
-            right_hand = [0] * (21 * 3)
+            for i in range(last_valid_idx + 1, len(group)):
+                group.loc[i, x_col] = last_val[0]
+                group.loc[i, y_col] = last_val[1]
+                group.loc[i, z_col] = last_val[2]
 
-            if hand_results.multi_hand_landmarks:
-                for hand_lms, handedness in zip(
-                    hand_results.multi_hand_landmarks,
-                    hand_results.multi_handedness
-                ):
-                    coords = []
-                    for lm in hand_lms.landmark:
-                        coords.extend([lm.x, lm.y, lm.z])
+    cleaned_groups.append(group)
 
-                    if handedness.classification[0].label == "Left":
-                        left_hand = coords
-                    else:
-                        right_hand = coords
+# merge back
+df_cleaned = pd.concat(cleaned_groups, ignore_index=True)
 
-            row.extend(left_hand)
-            row.extend(right_hand)
+df_cleaned.to_csv(OUTPUT_FILE, index=False)
 
-            # ================= FACE =================
-            if face_results.multi_face_landmarks:
-                face_lm = face_results.multi_face_landmarks[0].landmark
-                for i in FACE_POINTS:
-                    lm = face_lm[i]
-                    row.extend([lm.x, lm.y, lm.z])
-            else:
-                row.extend([0] * len(FACE_POINTS) * 3)
+print("Done! Cleaned dataset saved.")
 
-            # ================= LABEL =================
-            row.append(label)
-
-            writer.writerow(row)
-            frame_id += 1
-
-        cap.release()
-
-print("DONE → CSV created for single video")

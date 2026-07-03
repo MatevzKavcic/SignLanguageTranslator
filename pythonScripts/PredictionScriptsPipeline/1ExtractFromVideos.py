@@ -27,7 +27,7 @@ FACE_POINTS = [
 # HEADER
 # =========================
 
-header = ["frame", "video_id"]
+header = ["frame", "video"]
 
 for i in POSE_LANDMARKS:
     header += [f"pose_{i}_x", f"pose_{i}_y", f"pose_{i}_z"]
@@ -45,7 +45,7 @@ header.append("label")
 # VIDEO ID / LABEL
 # =========================
 
-video_id = "cigan_0"
+video_id = "cigan_org"
 label = "cigan"
 
 # =========================

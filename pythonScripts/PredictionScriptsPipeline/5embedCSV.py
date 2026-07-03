@@ -7,7 +7,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 # CONFIG
 # ==========================================================
 
-CSV_FILE = "single_video_clean.csv"
+CSV_FILE = "CleanedSequence.csv"
 MODEL_PATH = "../embedding_model.keras"
 
 OUTPUT_FILE = "single_video_embedding.npy"
@@ -47,14 +47,15 @@ print("Raw shape:", sequence.shape)
 # ==========================================================
 # PAD SEQUENCE
 # ==========================================================
+MAX_SEQUENCE_LENGTH = 163  # same value used during training
 
 sequence = pad_sequences(
     [sequence],
+    maxlen=MAX_SEQUENCE_LENGTH,
     padding="post",
+    truncating="post",
     dtype="float32"
 )
-
-print("Padded shape:", sequence.shape)
 
 # ==========================================================
 # EMBEDDING
