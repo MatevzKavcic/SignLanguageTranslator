@@ -10,37 +10,25 @@
 #   embedding_model.keras
 #   siamese_model.keras
 #
-# ==========================================================
-
+# =====================================================
 import time
 import random
 import numpy as np
 import tensorflow as tf
-
 from sklearn.model_selection import train_test_split
+from tensorflow.keras.models import Model # type: ignore
+from tensorflow.keras.layers import (Input,LSTM,Dense,Dropout,Masking,Lambda) # type: ignore
+from tensorflow.keras.callbacks import (EarlyStopping,ModelCheckpoint) # type: ignore
+from tensorflow.keras.preprocessing.sequence import pad_sequences # type: ignore
+import sys
 
-from tensorflow.keras.models import Model
-from tensorflow.keras.layers import (
-    Input,
-    LSTM,
-    Dense,
-    Dropout,
-    Masking,
-    Lambda
-)
-
-from tensorflow.keras.callbacks import (
-    EarlyStopping,
-    ModelCheckpoint
-)
-
-from tensorflow.keras.preprocessing.sequence import pad_sequences
+Try_number = sys.argv[1]
 
 # ==========================================================
 # CONFIGURATION
 # ==========================================================
 
-DATA_FOLDER = "ProcessedNPYdataNEW"
+DATA_FOLDER = f"{Try_number}_npyData"
 
 X_FILE = f"{DATA_FOLDER}/X_aug.npy"
 Y_FILE = f"{DATA_FOLDER}/y_aug.npy"
@@ -75,9 +63,6 @@ labels = np.load(
 print("Number of sequences :", len(X))
 print("Number of labels    :", len(y))
 print("Classes             :", len(labels))
-
-
-
 
 # ==========================================================
 # TRAIN / TEST SPLIT

@@ -1,13 +1,16 @@
 import numpy as np
 
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.models import load_model  # type: ignore 
+from tensorflow.keras.preprocessing.sequence import pad_sequences # type: ignore 
+import sys
+
+Try_number = sys.argv[1]
 
 # ==========================================
 # CONFIG
 # ==========================================
 
-DATA_FOLDER = "ProcessedNPYdataNEW"
+DATA_FOLDER = f"{Try_number}_npyData"
 
 MODEL_FILE = "embedding_model.keras"
 
