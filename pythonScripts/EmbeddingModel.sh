@@ -1,6 +1,6 @@
 #!/bin/bash
 
-read -p "Try number: " TRY
+TRY=$1
 
 echo "making the embedding model for try number: $TRY"
 

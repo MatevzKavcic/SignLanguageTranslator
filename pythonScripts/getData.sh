@@ -1,12 +1,10 @@
 #!/bin/bash
 
+VIDEO=$1
+TRY=$2
 
-
-read -p "Video path: " VIDEO
-read -p "Try number: " TRY
-
-python 1Extraction.py "$VIDEO" "$TRY"
-python 2MakeItUTF.py "$TRY"
+#python 1Extraction.py # tle manjka se "video in try ...'
+python 2makeItUTF8.py "$TRY"
 python 3CleanTheData.py "$TRY"
 python 4Normalization.py "$TRY"
 python 5Augmentation.py "$TRY"
@@ -28,13 +26,13 @@ mv  "${TRY}_npyData" "${TRY}"
 
 
 
-echo "If you want to run the embedding model, please run the following command:"    
+echo "If you want to run the embedding model, please run the following command:"
 
-echo " .EmbeddingModel.sh $TRY"
+echo " ./EmbeddingModel.sh $TRY"
 
 echo "If you want to run the LSTM model, please run the following command:"
 
-echo " .LSTMModel.sh $TRY"
+echo " ./LSTMModel.sh $TRY"
 
 
 

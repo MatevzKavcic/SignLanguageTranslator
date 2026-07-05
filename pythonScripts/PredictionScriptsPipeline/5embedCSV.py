@@ -47,7 +47,7 @@ print("Raw shape:", sequence.shape)
 # ==========================================================
 # PAD SEQUENCE
 # ==========================================================
-MAX_SEQUENCE_LENGTH = 163  # same value used during training
+MAX_SEQUENCE_LENGTH = model.input_shape[1] # same value used during training
 
 sequence = pad_sequences(
     [sequence],

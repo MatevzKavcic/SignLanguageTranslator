@@ -1,7 +1,8 @@
 #!/bin/bash
 
-read -p "Try number: " TRY
+TRY=$1
 
+echo "runing training for LSTM model"
 
 python 6TrainingTesting_LSTM.py "$TRY"
 

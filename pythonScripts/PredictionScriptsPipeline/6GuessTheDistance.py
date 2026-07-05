@@ -1,12 +1,21 @@
 import numpy as np
 
+
+import sys
+
+Try_number = sys.argv[1]
+
+print(Try_number)
+
+OUTPUT_CSV = f"1{Try_number}Extraction.csv"
+
 TOP_K = 40
 # ==========================================================
 # CONFIG
 # ==========================================================
-LABEL_NAMES = np.load("../ProcessedNPYdataNEW/labels.npy", allow_pickle=True)
-DATABASE_EMBEDDINGS = "../embedingsNpyFiles/embeddings.npy"
-DATABASE_LABELS = "../embedingsNpyFiles/embedding_labels.npy"
+LABEL_NAMES = np.load(f"../{Try_number}/{Try_number}_npyData/labels.npy", allow_pickle=True)
+DATABASE_EMBEDDINGS = f"../{Try_number}/embeddingsNpy/embeddings.npy"
+DATABASE_LABELS = f"../{Try_number}/embeddingsNpy/embedding_labels.npy"
 
 UNKNOWN_EMBEDDING = "single_video_embedding.npy"
 

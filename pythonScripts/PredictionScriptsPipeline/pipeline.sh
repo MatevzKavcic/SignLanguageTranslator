@@ -1,5 +1,12 @@
 #!/bin/bash
 
+
+TRY=$1
+
+PRED_NAME=$2
+
+
+
 set -e
 
 echo "====================================="
@@ -28,7 +35,7 @@ python 5embedCSV.py
 
 echo
 echo "[6/6] Predicting sign..."
-python 6GuessTheDistance.py
+python 6GuessTheDistance.py "$TRY"
 
 echo
 echo "====================================="
@@ -37,6 +44,8 @@ echo "====================================="
 
 
 echo "Organizing output files..."
+
+mkdir -p "${PRED_NAME}_pipelinePred"
 
 mkdir -p csvFiles
 mkdir -p npyFiles
@@ -47,9 +56,21 @@ mv -f ./*.csv csvFiles/ 2>/dev/null || true
 # Move NPY files
 mv -f ./*.npy npyFiles/ 2>/dev/null || true
 
+mv -f csvFiles "${PRED_NAME}_pipelinePred"
+mv -f npyFiles "${PRED_NAME}_pipelinePred"
+
+mkdir -p "${PRED_NAME}_pipelinePred/prediction"
+
+mv *.log "${PRED_NAME}_pipelinePred/prediction"
+
+
 echo
 echo "====================================="
 echo " Prediction finished!"
-echo " CSV files -> csvFiles/"
-echo " NPY files -> npyFiles/"
+echo " CSV files -> ${PRED_NAME}_pipelinePred/csvFiles/"
+echo " NPY files -> ${PRED_NAME}_pipelinePred/npyFiles/"
 echo "====================================="
+
+
+
+

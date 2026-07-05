@@ -19,6 +19,7 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Model # type: ignore
 from tensorflow.keras.layers import (Input,LSTM,Dense,Dropout,Masking,Lambda) # type: ignore
 from tensorflow.keras.callbacks import (EarlyStopping,ModelCheckpoint) # type: ignore
+from tensorflow.keras.utils import Sequence # type: ignore
 from tensorflow.keras.preprocessing.sequence import pad_sequences # type: ignore
 import sys
 
@@ -134,151 +135,110 @@ for label in sorted(class_indices.keys())[:5]:
 # CREATE SIAMESE PAIRS
 # ==========================================================
 
-def create_pairs(X, y):
+class SiameseGenerator(Sequence):
 
-    print("Unique labels:", np.unique(y))
-    print("Number of classes:", len(np.unique(y)))
+    def __init__(
+        self,
+        X,
+        y,
+        batch_size=16,
+        steps_per_epoch=1000,
+        shuffle=True
+    ):
 
-    left = []
-    right = []
-    targets = []
+        self.X = X
+        self.y = y
+        self.batch_size = batch_size
+        self.steps_per_epoch = steps_per_epoch
+        self.shuffle = shuffle
 
-    class_indices = defaultdict(list)
+        self.class_indices = defaultdict(list)
 
-    for idx, label in enumerate(y):
-        class_indices[label].append(idx)
+        for i, label in enumerate(y):
+            self.class_indices[label].append(i)
 
-    labels = list(class_indices.keys())
+        self.labels = list(self.class_indices.keys())
 
-    print("\nGenerating pairs...\n")
+    def __len__(self):
+        return self.steps_per_epoch
 
-    pair_counter = 0
+    def __getitem__(self, index):
 
-    for label in labels:
+        left_batch = []
+        right_batch = []
+        target_batch = []
 
-        indices = class_indices[label]
+        for _ in range(self.batch_size):
 
-        # Need at least two examples
-        if len(indices) < 2:
-            continue
+            # ---------------------------------
+            # Positive or negative pair
+            # ---------------------------------
 
-        # -----------------------------
-        # POSITIVE PAIRS
-        # -----------------------------
+            positive = random.random() < 0.5
 
-        for i in range(len(indices)):
+            label = random.choice(self.labels)
 
-            for j in range(i + 1, len(indices)):
+            indices = self.class_indices[label]
 
-                left.append(X[indices[i]])
-                right.append(X[indices[j]])
-                targets.append(1)
+            if positive and len(indices) >= 2:
 
-                pair_counter += 1
+                i1, i2 = random.sample(indices, 2)
 
-        # -----------------------------
-        # NEGATIVE PAIRS
-        # -----------------------------
+                left_batch.append(self.X[i1])
+                right_batch.append(self.X[i2])
+                target_batch.append(1.0)
 
-        negative_labels = [
-            l for l in labels
-            if l != label
-        ]
+            else:
 
-        for idx_positive in indices:
+                label2 = random.choice(self.labels)
 
-            random_label = random.choice(
-                negative_labels
-            )
+                while label2 == label:
+                    label2 = random.choice(self.labels)
 
-            random_index = random.choice(
-                class_indices[random_label]
-            )
+                i1 = random.choice(indices)
+                i2 = random.choice(self.class_indices[label2])
 
-            left.append(X[idx_positive])
-            right.append(X[random_index])
-            targets.append(0)
+                left_batch.append(self.X[i1])
+                right_batch.append(self.X[i2])
+                target_batch.append(0.0)
 
-            pair_counter += 1
-
-        print(
-            f"Processed class {label} "
-            f"({pair_counter} pairs)"
+        return (
+            (
+                np.asarray(left_batch, dtype=np.float32),
+                np.asarray(right_batch, dtype=np.float32),
+            ),
+            np.asarray(target_batch, dtype=np.float32),
         )
 
-    print("\nFinished creating pairs.\n")
 
-    return (
-        np.array(left),
-        np.array(right),
-        np.array(targets).astype(np.float32)
-    )
+print("\nCreating generators...\n")
 
-
-
-# ==========================================================
-# TRAINING PAIRS
-# ==========================================================
-
-train_left, train_right, train_targets = create_pairs(
+train_generator = SiameseGenerator(
     X_train,
-    y_train
+    y_train,
+    batch_size=BATCH_SIZE,
+    steps_per_epoch=1000
 )
 
-print()
-
-print("Training pairs :", len(train_targets))
-
-
-# ==========================================================
-# VALIDATION PAIRS
-# ==========================================================
-
-test_left, test_right, test_targets = create_pairs(
+validation_generator = SiameseGenerator(
     X_test,
-    y_test
+    y_test,
+    batch_size=BATCH_SIZE,
+    steps_per_epoch=200
 )
-
-print()
-
-print("Validation pairs :", len(test_targets))
-
-
-# ==========================================================
-# SHUFFLE PAIRS
-# ==========================================================
-
-train_perm = np.random.permutation(
-    len(train_targets)
-)
-
-train_left = train_left[train_perm]
-train_right = train_right[train_perm]
-train_targets = train_targets[train_perm]
-
-test_perm = np.random.permutation(
-    len(test_targets)
-)
-
-test_left = test_left[test_perm]
-test_right = test_right[test_perm]
-test_targets = test_targets[test_perm]
-
-print("\nPairs shuffled.\n")
-
 # ==========================================================
 # CHECK
 # ==========================================================
 
-print("Left train :", train_left.shape)
-print("Right train:", train_right.shape)
-print("Targets    :", train_targets.shape)
+# print("Left train :", train_left.shape)
+# print("Right train:", train_right.shape)
+# print("Targets    :", train_targets.shape)
 
-print()
+# print()
 
-print("Left test  :", test_left.shape)
-print("Right test :", test_right.shape)
-print("Targets    :", test_targets.shape)
+# print("Left test  :", test_left.shape)
+# print("Right test :", test_right.shape)
+# print("Targets    :", test_targets.shape)
 
 
 
@@ -455,32 +415,18 @@ print("\nStarting training...\n")
 
 history = siamese_model.fit(
 
-    [train_left, train_right],
+    train_generator,
 
-    train_targets,
-
-    validation_data=(
-
-        [test_left, test_right],
-
-        test_targets
-
-    ),
+    validation_data=validation_generator,
 
     epochs=EPOCHS,
 
-    batch_size=BATCH_SIZE,
-
     callbacks=[
-
         early_stop,
-
         checkpoint
-
     ]
 
 )
-
 
 # ==========================================================
 # SAVE
@@ -499,3 +445,4 @@ siamese_model.save(
 )
 
 print("\nDone.\n")
+
