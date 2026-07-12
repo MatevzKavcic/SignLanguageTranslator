@@ -11,7 +11,7 @@ from collections import defaultdict
 Try_number = sys.argv[1]
 
 INPUT_FOLDER = f"{Try_number}_npyData"
-OUTPUT_FOLDER = f"{Try_number}_SplitData"
+OUTPUT_FOLDER = f"{Try_number}_SplitData_TrainTest"
 
 TEST_PER_CLASS = 2
 RANDOM_SEED = 42

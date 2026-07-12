@@ -11,6 +11,8 @@
 #   siamese_model.keras
 #
 # =====================================================
+
+
 import time
 import random
 import numpy as np
@@ -434,13 +436,13 @@ history = siamese_model.fit(
 
 embedding_model.save(
 
-    "embedding_model.keras"
+    f"{Try_number}_embedding_model.keras"
 
 )
 
 siamese_model.save(
 
-    "siamese_model.keras"
+    f"{Try_number}_siamese_model.keras"
 
 )
 
