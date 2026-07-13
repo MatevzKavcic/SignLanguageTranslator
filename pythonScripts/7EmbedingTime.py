@@ -31,10 +31,10 @@ Try_number = sys.argv[1]
 # CONFIGURATION
 # ==========================================================
 
-DATA_FOLDER = f"{Try_number}/{Try_number}_npyData"
+DATA_FOLDER = f"{Try_number}/{Try_number}_Testing"
 
-X_FILE = f"{DATA_FOLDER}/X_aug.npy"
-Y_FILE = f"{DATA_FOLDER}/y_aug.npy"
+X_FILE = f"{DATA_FOLDER}/X_train.npy"
+Y_FILE = f"{DATA_FOLDER}/y_train.npy"
 LABEL_FILE = f"{DATA_FOLDER}/labels.npy"
 
 EMBEDDING_SIZE = 128
@@ -436,13 +436,13 @@ history = siamese_model.fit(
 
 embedding_model.save(
 
-    f"{Try_number}_embedding_model.keras"
+    "embedding_model_SPLITED.keras"
 
 )
 
 siamese_model.save(
 
-    f"{Try_number}_siamese_model.keras"
+    "siamese_model_SPLITED.keras"
 
 )
 

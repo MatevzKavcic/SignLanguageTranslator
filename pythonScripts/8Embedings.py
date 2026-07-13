@@ -10,12 +10,12 @@ Try_number = sys.argv[1]
 # CONFIG
 # ==========================================
 
-DATA_FOLDER = f"{Try_number}/{Try_number}_npyData"
+DATA_FOLDER = f"{Try_number}/{Try_number}_Testing"
 
-MODEL_FILE = "embedding_model.keras"
+MODEL_FILE = f"{Try_number}/SPLITED/embedding_model_SPLITED.keras"
 
-OUTPUT_EMBEDDINGS = "embeddings.npy"
-OUTPUT_LABELS = "embedding_labels.npy"
+OUTPUT_EMBEDDINGS = "embeddings_SPLITED.npy"
+OUTPUT_LABELS = "embedding_labels_SPLITED.npy"
 
 # ==========================================
 # LOAD DATA
@@ -24,12 +24,12 @@ OUTPUT_LABELS = "embedding_labels.npy"
 print("\nLoading sequences...\n")
 
 X = np.load(
-    f"{DATA_FOLDER}/X_aug.npy",
+    f"{DATA_FOLDER}/X_train.npy",
     allow_pickle=True
 )
 
 y = np.load(
-    f"{DATA_FOLDER}/y_aug.npy"
+    f"{DATA_FOLDER}/y_train.npy"
 )
 
 labels = np.load(
