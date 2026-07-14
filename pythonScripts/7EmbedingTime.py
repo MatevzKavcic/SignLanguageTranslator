@@ -31,7 +31,7 @@ Try_number = sys.argv[1]
 # CONFIGURATION
 # ==========================================================
 
-DATA_FOLDER = f"{Try_number}/{Try_number}_Testing"
+DATA_FOLDER = "eightTry/SplitBySigns/"
 
 X_FILE = f"{DATA_FOLDER}/X_train.npy"
 Y_FILE = f"{DATA_FOLDER}/y_train.npy"
@@ -436,13 +436,13 @@ history = siamese_model.fit(
 
 embedding_model.save(
 
-    "embedding_model_SPLITED.keras"
+    "embedding_model_UNSEEN.keras"
 
 )
 
 siamese_model.save(
 
-    "siamese_model_SPLITED.keras"
+    "siamese_model_UNSEEN.keras"
 
 )
 
