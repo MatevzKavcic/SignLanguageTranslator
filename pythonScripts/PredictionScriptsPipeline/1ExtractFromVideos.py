@@ -1,13 +1,18 @@
 import cv2  # type: ignore
 import mediapipe as mp  # type: ignore
 import csv
+import sys
+
+VideoName = sys.argv[1]
 
 # =========================
 # INPUT / OUTPUT
 # =========================
 
-VIDEO_PATH = "cigan.mp4"
+VIDEO_PATH = f"{VideoName}"
+
 OUTPUT_CSV = "video_sequence.csv"
+
 
 # =========================
 # LANDMARK CONFIG

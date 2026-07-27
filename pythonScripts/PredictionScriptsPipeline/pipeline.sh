@@ -1,9 +1,12 @@
 #!/bin/bash
 
+#use : bash pipeline.sh <try_number> <video_name> <prediction_name>
 
 TRY=$1
 
-PRED_NAME=$2
+VIDEO_NAME=$2
+
+PRED_NAME=$3
 
 
 
@@ -15,7 +18,7 @@ echo "====================================="
 
 echo
 echo "[1/6] Extracting landmarks..."
-python 1ExtractFromVideos.py
+python 1ExtractFromVideos.py "$VIDEO_NAME" 
 
 echo
 echo "[2/6] Converting CSV to UTF-8..."
