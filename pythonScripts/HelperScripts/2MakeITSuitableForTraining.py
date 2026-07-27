@@ -6,12 +6,17 @@ import pandas as pd # type: ignore
 import numpy as np
 from sklearn.preprocessing import LabelEncoder # type: ignore
 
-# ---------------- CONFIG ----------------
-CSV_FILE = "TestingCleaned/testing_cleanedFULLY.csv"
 
-X_OUTPUT = "X.npy"
-Y_OUTPUT = "y.npy"
-LABEL_ENCODER_OUTPUT = "label_classes.npy"
+import sys
+
+Try_number = sys.argv[1]
+
+# ---------------- CONFIG ----------------
+CSV_FILE = f"4.1{Try_number}Normalization.csv"
+
+X_OUTPUT = f"{Try_number}X.npy"
+Y_OUTPUT = f"{Try_number}y.npy"
+LABEL_ENCODER_OUTPUT = f"{Try_number}label_classes.npy"
 
 # ---------------- LOAD CSV ----------------
 print("Loading CSV...")

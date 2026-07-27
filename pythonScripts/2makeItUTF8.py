@@ -5,7 +5,7 @@ import sys
 
 Try_number = sys.argv[1]
 
-INPUT = f"TrySeven/csvFiles/1TrySevenExtraction.csv" #1{Try_number}Extraction.csv"
+INPUT = f"{Try_number}Extraction.csv"
 OUTPUT = f"2{Try_number}UTF8.csv"
 
 # -----------------------------

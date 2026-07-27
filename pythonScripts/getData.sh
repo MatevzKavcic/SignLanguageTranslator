@@ -3,7 +3,7 @@
 VIDEO=$1
 TRY=$2
 
-#python 1Extraction.py # tle manjka se "video in try ...'
+python 1Extraction.py "$VIDEO" "$TRY"
 python 2makeItUTF8.py "$TRY"
 python 3CleanTheData.py "$TRY"
 python 4Normalization.py "$TRY"
